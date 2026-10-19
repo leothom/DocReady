@@ -1,7 +1,12 @@
-# Same-server override: DocReady app publishes 127.0.0.1:3200 on host; SlideReady's Caddy handles TLS for docready.xyz.
+# Same-server override: join SlideReady's network so its Caddy reverse-proxies docready.xyz to docready-app-1:3100.
 services:
   app:
-    ports:
-      - "127.0.0.1:3200:3100"
+    networks:
+      - default
+      - slideready_net
   web:
     profiles: ["disabled"]
+networks:
+  slideready_net:
+    external: true
+    name: slideready_default
