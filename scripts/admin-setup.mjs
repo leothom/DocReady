@@ -17,8 +17,8 @@ async function readPassword(){
 let temporary;
 try{
  const password=await readPassword();
- const path=resolve(process.env.SLIDEREADY_ADMIN_HASH_PATH??'/data/admin-password.hash');
- const database=resolve(process.env.SLIDEREADY_DB_PATH??'/data/slideready.sqlite');
+ const path=resolve(process.env.DOCREADY_ADMIN_HASH_PATH??'/data/admin-password.hash');
+ const database=resolve(process.env.DOCREADY_DB_PATH??'/data/docready.sqlite');
  const salt=randomBytes(16).toString('hex');
  const encoded=salt+':'+scryptSync(password,salt,64).toString('hex')+'\n';
  mkdirSync(dirname(path),{recursive:true,mode:0o700});
