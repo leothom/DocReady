@@ -1,0 +1,5 @@
+import type {ExtractedDeck,Slide} from "../../src/lib/contracts";
+import type {BatchResult} from "../../src/lib/review/types";
+export function reviewSlide(n:number,text="The company sell goods."):Slide{return {slideNumber:n,hidden:false,elements:[{elementId:"slide-"+n+"/shape-2",shapeId:"2",shapeName:"Body",text}],warnings:[],extractionStatus:"read"};}
+export function reviewDeck(slides:Slide[]):ExtractedDeck{return {slides,warnings:[],extractedCharacters:slides.flatMap(s=>s.elements).reduce((n,e)=>n+e.text.length,0)};}
+export function goodResult(batch:Slide[],withFinding=false):BatchResult{return {findings:withFinding?[{slideNumber:batch[0].slideNumber,shapeId:"2",elementId:batch[0].elements[0].elementId,reviewType:"correction",category:"grammar",originalText:batch[0].elements[0].text,suggestedText:"The company sells goods.",explanation:{en:"Use sells with company.","zh-Hans":"company 是单数主语，应使用 sells。"},confidence:.95,optional:false}]:[],usage:{inputTokens:100,outputTokens:20,cachedInputTokens:0},elapsedMs:10,costUsd:.001,model:"deepseek-flash"};}

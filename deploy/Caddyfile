@@ -1,0 +1,23 @@
+# Remove request metadata from operational errors as well as access logs.
+# Personal API keys must never be written to proxy logs.
+{
+	log default {
+		format filter {
+			request delete
+			headers delete
+			resp_headers delete
+			wrap json
+		}
+	}
+}
+
+# No HTTP access log, request-body capture or debug logging.
+{$SITE_HOST} {
+	request_body {
+		max_size 2MB
+	}
+	header Strict-Transport-Security "max-age=31536000"
+	reverse_proxy app:3100 {
+		header_up X-SlideReady-Client {remote_host}
+	}
+}

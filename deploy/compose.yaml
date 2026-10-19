@@ -1,0 +1,61 @@
+name: slideready
+services:
+  app:
+    image: ${SLIDEREADY_IMAGE:?Set SLIDEREADY_IMAGE to a commit-specific image tag}
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    env_file:
+      - ${SLIDEREADY_ENV_FILE:-./server.env}
+    environment:
+      APP_ORIGIN: https://${SITE_HOST:?Set SITE_HOST to your domain name}
+      SLIDEREADY_DB_PATH: /data/slideready.sqlite
+      SLIDEREADY_ADMIN_HASH_PATH: /data/admin-password.hash
+    volumes:
+      - app_data:/data
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /app/.next/cache:size=64m,uid=1000,gid=1000,mode=0700
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+  web:
+    image: caddy:2-alpine
+    environment:
+      SITE_HOST: ${SITE_HOST:?Set SITE_HOST to your domain name}
+    ports:
+      - "${PUBLIC_BIND_IP:-0.0.0.0}:${HTTP_PORT:-80}:80"
+      - "${PUBLIC_BIND_IP:-0.0.0.0}:${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+volumes:
+  app_data:
+  caddy_data:
+  caddy_config:

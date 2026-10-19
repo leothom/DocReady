@@ -1,0 +1,13 @@
+# Personal-key daily allowance release — 16 October 2026
+
+Approved scope: personal keys bypass school daily allowances; all access, file, timeout, request-rate and concurrency protections remain. Record school and personal request counts and known costs separately.
+
+Implementation: derive payer only from validated request key headers. Bind new review IDs to that payer. School reservations still check both global and invite daily allowances. Personal reservations neither consume nor depend on those allowances. SQLite schema 3 adds payer metadata, not keys. Old records remain unclassified; unknown old requests conservatively count against today's school allowance. Their existing totals and costs are preserved.
+
+Verification: 302 unit tests pass, including schema 2 migration, quota isolation, revoked access, review admission limits, probe/review dispatch and old-record cost handling. 75 full browser checks passed; the independent reviewer then identified an admission error-message issue. The new regression test reproduced it before the fix. Personal-key browser checks were rerun after fixing the distinction between a daily allowance and a short-term rate limit. Production build, TypeScript and ESLint pass.
+
+Release gate: independent security review found no security blocker. DeepSeek reasoner reported clean. Its suppressed suggestions assumed missing validation/rate checks; requestPersonalKey validates headers, while the existing session/global rate and concurrency checks run before either school or personal dispatch. No fallback to school billing exists. Repomix source audit and high-signal secret scan passed. Dependencies and deployment config are unchanged from the prior passing release gate; prior AgentShield findings were verified lockfile-hash false positives and non-runtime instruction-file suggestions. No new personal data is collected. Existing prompt isolation, output validation, fixed endpoint, timeouts, log redaction and access controls remain.
+
+UI review: preserve the existing layout and native controls. Bilingual text explains no school daily limit and continuing server protection. Admin reports show payer counts over time and known costs; legacy payer is not guessed. Existing phone and Chinese tests pass.
+
+Deployment: build before stopping the app. Stop app, save consistent private database/config backup, migrate on start, and test HTTPS. Rollback requires stopping the new app and restoring the database backup before starting the old image; the old app rejects schema 3. No standalone Claude/ultraview tools were available; independent Codex and DeepSeek performed the review lanes.

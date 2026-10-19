@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+evidence/
+.env*
+!.env.example
+.superpowers/
+*.tsbuildinfo
+*.log
+*.sqlite*
+*admin-password*
