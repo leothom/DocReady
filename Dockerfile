@@ -1,6 +1,6 @@
 FROM node:24-bookworm-slim AS builder
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1 SLIDEREADY_STANDALONE=true
+ENV NEXT_TELEMETRY_DISABLED=1 DOCREADY_STANDALONE=true
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .

@@ -1,0 +1,7 @@
+# Same-server override: DocReady app publishes 127.0.0.1:3200 on host; SlideReady's Caddy handles TLS for docready.xyz.
+services:
+  app:
+    ports:
+      - "127.0.0.1:3200:3100"
+  web:
+    profiles: ["disabled"]
