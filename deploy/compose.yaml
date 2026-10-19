@@ -1,16 +1,16 @@
-name: slideready
+name: docready
 services:
   app:
-    image: ${SLIDEREADY_IMAGE:?Set SLIDEREADY_IMAGE to a commit-specific image tag}
+    image: ${DOCREADY_IMAGE:?Set DOCREADY_IMAGE to a commit-specific image tag}
     build:
       context: ..
       dockerfile: Dockerfile
     env_file:
-      - ${SLIDEREADY_ENV_FILE:-./server.env}
+      - ${DOCREADY_ENV_FILE:-./server.env}
     environment:
       APP_ORIGIN: https://${SITE_HOST:?Set SITE_HOST to your domain name}
-      SLIDEREADY_DB_PATH: /data/slideready.sqlite
-      SLIDEREADY_ADMIN_HASH_PATH: /data/admin-password.hash
+      DOCREADY_DB_PATH: /data/docready.sqlite
+      DOCREADY_ADMIN_HASH_PATH: /data/admin-password.hash
     volumes:
       - app_data:/data
     restart: unless-stopped
