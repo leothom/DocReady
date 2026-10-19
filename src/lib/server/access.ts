@@ -77,7 +77,7 @@ export function createAccessService({config,fetcher=fetch,now=Date.now,timeoutMs
     }
   }
   function getSession(request:Request) {
-    const cookie=request.headers.get("cookie")?.split(";").map(x=>x.trim()).find(x=>x.startsWith("docready_session="))?.slice(19);
+    const cookie=request.headers.get("cookie")?.split(";").map(x=>x.trim()).find(x=>x.startsWith("docready_session="))?.slice("docready_session=".length);
     if(!cookie||cookie.length>1024) return null;
     const parts=cookie.split(".");
     if(parts.length!==2||!equal(sign(parts[0]),parts[1])) return null;
