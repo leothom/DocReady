@@ -18,6 +18,6 @@
 	}
 	header Strict-Transport-Security "max-age=31536000"
 	reverse_proxy app:3100 {
-		header_up X-SlideReady-Client {remote_host}
+		header_up X-DocReady-Client {remote_host}
 	}
 }
