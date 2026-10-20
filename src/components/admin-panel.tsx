@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import LanguageSwitch from "./language-switch";
+import {BrandMark} from "./brand-mark";
 import { useLocale } from "../lib/i18n/provider";
 
 type Invite = { id: string; name: string; email?: string; expiresAt: number; dailyLimit: number; generation: number; revoked: boolean; createdAt: number };
@@ -156,7 +157,7 @@ export default function AdminPanel() {
   const rows = usage ? (period === "weekly" ? weekly(usage.daily) : [...usage.daily].sort((a, b) => b.date.localeCompare(a.date))) : [];
 
   return <main className="admin-page">
-    <header><Link className="brand" href="/">DocReady</Link><div className="admin-header-actions"><LanguageSwitch />{session === "signedIn" && <button className="secondary" disabled={busy} onClick={logout}>{t("Sign out", "退出登录")}</button>}</div></header>
+    <header><Link className="brand" href="/"><BrandMark />DocReady</Link><div className="admin-header-actions"><LanguageSwitch />{session === "signedIn" && <button className="secondary" disabled={busy} onClick={logout}>{t("Sign out", "退出登录")}</button>}</div></header>
     <h1>{t("Teacher invites", "教师邀请")}</h1>
     {error && <p role="alert" className="status error-text">{t("The request failed. Check your details and try again.", "请求失败。请检查信息后重试。")}</p>}
     {session === "checking" && <p role="status">{t("Checking access…", "正在检查访问权限…")}</p>}

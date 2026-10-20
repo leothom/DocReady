@@ -7,6 +7,7 @@ import {errorMessage,format,getMessages,warningMessage} from "../lib/i18n/messag
 import {useReview} from "../lib/review/use-review";
 import SiteFooter from "./site-footer";
 import LanguageSwitch from "./language-switch";
+import {BrandMark} from "./brand-mark";
 import ReviewForm from "./review-form";
 import ReviewResults from "./review-results";
 import PersonalKeySettings from "./personal-key-settings";
@@ -35,7 +36,7 @@ export default function TeacherReview(){
  const noText=review.deck&&review.deck.extractedCharacters===0&&review.deck.slides.every(s=>s.extractionStatus!=="failed");
  const feedback=!!review.result&&!review.busy;
  return <main>
-  <header><span className="brand">DocReady</span><LanguageSwitch/></header>
+  <header><span className="brand"><BrandMark />DocReady</span><LanguageSwitch/></header>
   {!feedback&&!review.busy&&<><h1>{w.title}</h1><p className="intro">{w.intro}</p></>}
   {access==="checking"&&<p role="status" className="status">{w.access}</p>}
   {access==="invite"&&<EmailAccessForm onReady={()=>setAccess("ready")}/>}

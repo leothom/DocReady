@@ -3,10 +3,11 @@ import SiteFooter from "./site-footer";
 import {siteContact} from "../lib/site-contact";
 import Link from "next/link";
 import LanguageSwitch from "./language-switch";
+import {BrandMark} from "./brand-mark";
 import {useLocale} from "../lib/i18n/provider";
 import {getMessages} from "../lib/i18n/messages";
 export default function PrivacyPolicy(){const {locale}=useLocale(),w=getMessages(locale);return <main className="privacy-page">
- <header><Link className="brand" href="/">DocReady</Link><LanguageSwitch/></header>
+ <header><Link className="brand" href="/"><BrandMark />DocReady</Link><LanguageSwitch/></header>
  <h1>{w.privacyTitle}</h1>
  <section><h2>{w.privacyFiles}</h2><p>{w.privacy}</p></section>
  <section><h2>{w.privacySession}</h2><p>{w.sessionHelp}</p><p>{w.privacyFeedback}</p><p>{w.privacyAccess}</p></section>

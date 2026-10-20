@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import LanguageSwitch from './language-switch';
+import {BrandMark} from './brand-mark';
 import SiteFooter from './site-footer';
 import {useLocale} from '../lib/i18n/provider';
 import {siteContact} from '../lib/site-contact';
@@ -14,4 +15,4 @@ export default function InformationPage({kind}:{kind:'terms'|'contact'}){const {
  ['Your presentations','Your PowerPoint file is not changed automatically. Paste the suggestions you choose into PowerPoint. You keep your rights to your material. Submit only text you have permission to use and that your school permits you to send to the AI service. Do not submit student personal data or other sensitive personal data.'],
  ['Private trial','Share private invites only with people permitted to join the trial. Do not publish invite links or misuse the service. The service can change or pause. Continuous availability is not guaranteed.'],
  ['Data and responsibility','Read Privacy for how the Hong Kong server and DeepSeek handle text. These terms do not exclude or limit rights or liability that cannot legally be excluded or limited. Specific liability depends on applicable law and the facts.'],
-];return <main className="privacy-page"><header><Link className="brand" href="/">DocReady</Link><LanguageSwitch/></header><h1>{kind==='terms'?(zh?'使用条款':'Terms of Use'):(zh?'联系':'Contact')}</h1>{kind==='terms'&&sections.map(([title,text])=><section key={title}><h2>{title}</h2><p>{text}</p></section>)}<section>{kind==='terms'&&<h2>{zh?'运营方与联系':'Operator and contact'}</h2>}<p>{siteContact.operator}</p><p>{zh?'如需帮助，请发送邮件：':'For help, send an email:'}</p><a href={'mailto:'+siteContact.email}>{siteContact.email}</a></section><SiteFooter/></main>;}
+];return <main className="privacy-page"><header><Link className="brand" href="/"><BrandMark />DocReady</Link><LanguageSwitch/></header><h1>{kind==='terms'?(zh?'使用条款':'Terms of Use'):(zh?'联系':'Contact')}</h1>{kind==='terms'&&sections.map(([title,text])=><section key={title}><h2>{title}</h2><p>{text}</p></section>)}<section>{kind==='terms'&&<h2>{zh?'运营方与联系':'Operator and contact'}</h2>}<p>{siteContact.operator}</p><p>{zh?'如需帮助，请发送邮件：':'For help, send an email:'}</p><a href={'mailto:'+siteContact.email}>{siteContact.email}</a></section><SiteFooter/></main>;}
